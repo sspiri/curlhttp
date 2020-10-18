@@ -6,7 +6,11 @@
 #include <unordered_map>
 #include <thread>
 
-#include <sys/select.h>
+#ifndef _WIN32
+    #include <sys/select.h>
+#else
+    #include <WinSock2.h>
+#endif
 
 #include "detail.hpp"
 #include "curl_base.hpp"

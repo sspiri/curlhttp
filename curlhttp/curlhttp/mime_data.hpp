@@ -68,10 +68,9 @@ namespace curlhttp{
 
     class file_data final : public basic_mime_data{
     public:
-        std::filesystem::path filepath;
-        std::string filename;
+        std::string filepath, filename;
 
-        file_data(const std::filesystem::path& fp, curl_mime* parent)
+        file_data(const std::string& fp, curl_mime* parent)
             : basic_mime_data{parent}, filepath{fp} {}
 
         void setup() override{
@@ -81,8 +80,15 @@ namespace curlhttp{
 
             if(filename.size())
                 curl_mime_filename(part, filename.c_str());
-            else
-                curl_mime_filename(part, filepath.filename().c_str());
+
+            else{
+                std::size_t pos = filepath.rfind('/');
+
+                if(pos == filepath.npos)
+                    curl_mime_filename(part, filepath.c_str());
+                else
+                    curl_mime_filename(part, filepath.substr(++pos).c_str());
+            }
         }
     };
 

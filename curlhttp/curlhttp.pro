@@ -1,9 +1,8 @@
-TEMPLATE = app
 CONFIG += console c++17
 CONFIG -= app_bundle qt
 
-QMAKE_CXXFLAGS += -std=c++17
-LIBS += -lcurl
+unix:QMAKE_CXXFLAGS += -std=c++17
+unix:LIBS += -lcurl
 
 SOURCES += \
         main.cpp
@@ -38,3 +37,8 @@ HEADERS += \
     curlhttp/status_code.hpp \
     curlhttp/url_t.hpp \
     curlhttp/utility.hpp
+
+win32:DEFINES+="CURL_STATICLIB"
+win32:LIBS += -L$$PWD/../../curl/lib/ -llibcurl_a -lws2_32 -lwldap32 -lcrypt32 -lnormaliz -ladvapi32
+win32:INCLUDEPATH += $$PWD/../../curl/include
+win32:DEPENDPATH += $$PWD/../../curl/include

@@ -15,7 +15,7 @@
 namespace curlhttp{
 
     inline std::string escape(const std::string& s){
-        char* p = curl_easy_escape(nullptr, s.c_str(), s.size());
+        char* p = curl_easy_escape(nullptr, s.c_str(), (int)s.size());
         std::string result{p};
         curl_free(p);
         return result;
@@ -24,7 +24,7 @@ namespace curlhttp{
 
     inline std::string unescape(const std::string& s){
         int length;
-        char* p = curl_easy_unescape(nullptr, s.c_str(), s.size(), &length);
+        char* p = curl_easy_unescape(nullptr, s.c_str(), (int)s.size(), &length);
         std::string result{p};
         curl_free(p);
         result.resize(length);

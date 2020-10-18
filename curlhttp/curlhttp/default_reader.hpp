@@ -13,6 +13,11 @@
 #include "nullbuf_t.hpp"
 #include "size_getter.hpp"
 
+#ifdef _WIN32
+    #undef max
+    #undef min
+#endif
+
 
 namespace curlhttp{
 
